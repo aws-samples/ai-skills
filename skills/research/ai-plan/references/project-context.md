@@ -20,6 +20,8 @@ These three keys are the whole schema. Each problem below warns once, naming wha
 - **A key has the wrong type** — `output_path = 3`, or a `context_files` that is not an array of strings → warn naming the key, and use that key's default.
 - **An unrecognized key** — `outputpath`, `adr_path` → warn naming it, ignore it, and apply the keys that are recognized.
 
+A table named for a skill, such as `[video]`, holds that skill's own settings and is not part of this schema: ignore it without a warning.
+
 **No skill creates, modifies, or deletes `.ai-skills.toml`.** A person writes it. After any run the file is byte-identical to its state before the run, or still absent.
 
 An `output_path` that resolves outside the session's working directory is not a malformed value, so it does not warn and fall back. It crosses the boundary the Edit Scope clause holds, and that clause stops and asks before anything is written there.

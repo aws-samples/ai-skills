@@ -30,7 +30,7 @@ of automated review feedback.
 | `no worktree` | Work in the current checkout instead of a new worktree. |
 | `no spec review` | Skip the stop for a person to review the spec or plan. |
 | `keep draft` | Never mark the PR/MR ready for review; it stays a draft when the run ends. |
-| `--finish` | After a person merges: confirm the merge, remove the worktree and branch, close out the issue, and offer to archive the spec. |
+| `--finish` | After a person merges: confirm the merge, remove the worktree and branch, close out the issue, fast-forward the local base branch to the remote, and offer to archive the spec. The base branch is left alone, and the report says why, when its checkout has uncommitted changes or the branch has diverged. |
 
 The modifiers are also recognised in plain language, and the skill echoes back which ones it picked up.
 It never merges the PR/MR itself; every run that reaches a PR/MR ends waiting on a person to merge it.

@@ -58,6 +58,15 @@ them start a review on — so marking ready is what requests each round's review
 While the PR is a draft, `mergeStateStatus` reads `DRAFT`. That is not a conflict: read whether the
 branch merges cleanly from `git merge-base --is-ancestor` instead.
 
+## Confirm the merge
+
+`--finish` reads three fields from one call: `state` is `MERGED` only after a merge, `baseRefName`
+is `<base>`, and `mergeCommit.oid` is the commit to find on `<base>`:
+
+```bash
+gh pr view <n> --repo <owner>/<repo> --json state,baseRefName,mergeCommit
+```
+
 ## Close out the issue after merge
 
 ```bash

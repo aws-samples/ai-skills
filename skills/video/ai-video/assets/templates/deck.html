@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>__TITLE__</title>
+<!-- video deck. Read the skill's references/deck-contract.md before editing. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=block">
+<link rel="stylesheet" href="viewport-base.css">
+<script src="deck-stage.js"></script>
+<style>
+  :root {
+    --bg: #020617;
+    --ink: #ffffff;
+    --muted: #94a3b8;
+    --accent: #34d399;
+    --font-display: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  deck-stage > section {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-display);
+    padding: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  /* Entrance animations key on data-deck-active, so replay() restarts them. */
+  .reveal { opacity: 0; transform: translateY(24px); }
+  [data-deck-active] .reveal { animation: reveal 600ms cubic-bezier(.16,1,.3,1) forwards; }
+  [data-deck-active] .reveal:nth-child(2) { animation-delay: 80ms; }
+  [data-deck-active] .reveal:nth-child(3) { animation-delay: 160ms; }
+  @keyframes reveal { to { opacity: 1; transform: none; } }
+  h1 { font-size: 128px; line-height: 1; margin: 0; letter-spacing: -2px; }
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+  <section data-scene="title">
+    <h1 class="reveal">__TITLE__</h1>
+  </section>
+</deck-stage>
+</body>
+</html>

@@ -1,0 +1,45 @@
+# video bundle. The source of truth for this video: edit it by hand, then ask for a render.
+# Every field is documented in the ai-video skill's references/video-bundle.md.
+title: __TITLE__
+slug: __SLUG__
+# The date in the title slide's lower right corner, YYYY.MM.DD; false for none.
+date_stamp: "__STAMP__"
+
+# What the opening and closing are written from (references/structure.md). Every field is optional.
+# brief:
+#   outcome: ""        # what a viewer can do or knows after watching
+#   takeaways: []      # at most three points the closing restates
+#   action: ""         # the one thing a viewer should do next
+#   references: []     # documents to cite, each a name and, if it has one, a url
+
+voice:
+  # Leave these out to use [video] in .ai-skills.toml, or the defaults: Amazon Polly, Stephen, generative.
+  # provider: polly        # or elevenlabs
+  # polly:
+  #   voice: Stephen
+  #   engine: generative
+  # elevenlabs:
+  #   id: 2KkUKn1TzEOhhKPCZGrT
+  #   model: eleven_v4
+  #   # A higher stability keeps the accent steadier from line to line, and can make the delivery flatter.
+  #   settings: {stability: 0.7}
+  # Written form on the slide -> what the voice says.
+  say_as: {}
+
+render:
+  fps: 25
+  lead_in: 0.3
+  tail: 0.7
+  gap: 1.0
+  fade_out: 1          # seconds the video fades to black at its end; 0 for none
+
+# Applied to every scene on every rebuild. Never shown or spoken.
+guidance: ""
+
+scenes:
+  - id: title
+    source: slide
+    narration: ""
+    hold: 2
+    steering: ""
+    guidance: ""

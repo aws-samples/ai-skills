@@ -104,6 +104,17 @@ MR for every toggle, and the title still has to be right for the squash.
 While the MR is a draft, `detailed_merge_status` reads `draft_status`. That is not a conflict: read
 whether the branch merges cleanly from `git merge-base --is-ancestor` instead.
 
+## Confirm the merge
+
+`--finish` reads three fields from one call: `state` is `merged` only after a merge,
+`target_branch` is `<base>`, and the commit to find on `<base>` is the first of these that is set:
+`merge_commit_sha`; `squash_commit_sha`, when a fast-forward merge squashed the branch; `sha`, the
+head commit, when a fast-forward merge did not squash and GitLab records neither of the others:
+
+```bash
+mapi "$API/projects/$PID/merge_requests/<iid>" | python3 -c 'import json,sys;m=json.load(sys.stdin);print(m["state"],m["target_branch"],m["merge_commit_sha"] or m["squash_commit_sha"] or m["sha"])'
+```
+
 ## Close out the issue after merge
 
 `state` tells you whether `Closes #<iid>` already closed it; both calls below are writes, so they need

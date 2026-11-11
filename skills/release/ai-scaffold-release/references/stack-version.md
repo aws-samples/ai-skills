@@ -14,13 +14,13 @@ installed into the script's own environment, never one found on `PATH`. A newer
 release changing template-rendering defaults would not fail loudly, it would
 render differently.
 
-## `uv` 0.12.19
+## `uv` 0.13.7
 
 Every bundled script runs as `uv run scripts/<name>_cli.py`, and `uv` is the
 only thing a consumer installs to run them: it fetches Python 3.14 and the
 script's declared dependencies itself. `assets/gitlab-ci-release.yml` and
-`assets/gitlab-ci-promote.yml` install it with `pip install 'uv==0.12.19'`, and
-`assets/github-release.yml` with `astral-sh/setup-uv` given `version: "0.12.19"`,
+`assets/gitlab-ci-promote.yml` install it with `pip install 'uv==0.13.7'`, and
+`assets/github-release.yml` with `astral-sh/setup-uv` given `version: "0.13.7"`,
 so a CI run uses the version this skill's tests ran under.
 
 ## `actions/checkout` 4.4.0

@@ -95,7 +95,7 @@ directive adds no heading.
 /ai-dev-autopr <input> no worktree          # work in the current checkout instead
 /ai-dev-autopr <input> no spec review        # skip the spec/plan human gate
 /ai-dev-autopr <input> keep draft           # never mark the PR/MR ready for review
-/ai-dev-autopr --finish                     # post-merge: verify merged, clean up, close out the issue, offer archive/sync
+/ai-dev-autopr --finish                     # post-merge: verify merged, clean up, close out the issue, update the base branch, offer archive/sync
 ```
 
 Flags are also honored as natural language, because that is how they get typed: "no worktree",
@@ -108,8 +108,11 @@ Stop and ask the human only when one of these is true:
 
 - **Materially different designs.** Two or more reasonable implementations lead to different public
   surfaces, data shapes, or migration stories, and the input does not choose. Present them, don't pick.
-- **A binding rule is in the way.** The spec or issue contradicts an `Accepted` ADR, a stated hard
-  constraint, or a security posture in the repo's own docs. Name the conflict; let the human resolve it.
+- **A boundary is in the way.** The spec or issue would act against an in-scope `Accepted` ADR marked
+  `Boundary: yes`, a stated hard constraint, or a security posture in the repo's own docs. Name the
+  conflict; let the human resolve it. Any other `Accepted` ADR is a guardrail: when the spec or issue
+  departs from one, do what it asked, and name the record and its Decision bullet in the PR body.
+  Only a record's Decision bullets count, never its Context or Consequences.
 - **Only the human can unblock it.** An expired auth session, a credential, a missing service, a
   decision that belongs to a product owner.
 - **A credential destination nobody chose.** A step would send a forge credential to a host that is
@@ -378,10 +381,23 @@ merging is theirs.
 ## Phase 9 — `--finish` (after the human merges)
 
 1. Confirm the PR/MR actually merged (forge API), and that the merge commit is on the base branch.
-   If it is not merged, say so and stop — cleanup would destroy unmerged work.
-2. Remove the worktree and delete the local and remote branch (`git worktree remove`,
-   `git worktree prune`, `git branch -d`, `git push origin --delete <branch>`), unless the repo or
-   the forge already deleted the remote branch on merge.
+   If it is not merged, say so and stop — cleanup would destroy unmerged work. Take `<base>` from the
+   same response: it is the PR/MR's target branch, the branch the merge went into. Never assume
+   `main`, and do not substitute `origin/HEAD`, which can name a different branch. The forge
+   reference has the read.
+2. Remove the merged branch:
+   - If a linked worktree (one Phase 1 added) has it checked out, remove that worktree
+     (`git worktree remove`, `git worktree prune`).
+   - If the checkout this session was invoked in has it checked out — a `no worktree` run — and
+     `git status --porcelain` prints nothing, switch that checkout to `<base>`, which is normally
+     the branch Phase 1 created this one from. If the command prints anything, switch nothing,
+     delete neither the local nor the remote merged branch, and report that the branch stays
+     because the checkout has uncommitted changes.
+   - Delete the local branch with `git branch -D <branch>`. `-d` refuses a squash-merged branch,
+     because its commits are not ancestors of `<base>`. `-D` is safe only because step 1 confirmed
+     this branch's PR/MR merged, so use it for that branch and no other.
+   - Delete the remote branch (`git push origin --delete <branch>`), unless the repo or the forge
+     already deleted it on merge.
 3. **Close out the issue the work came from, as part of cleanup.** A merged PR whose issue still sits
    open is the most common residue of this workflow, and the tracker — not the PR — is where the rest
    of the team looks for status. Recover the reference from the PR body's link or from the input you
@@ -399,12 +415,35 @@ merging is theirs.
    - **Don't close what isn't finished.** If you left part of the scope out, or review deferred
      follow-ups, comment with what landed and what remains and leave it open (or file the follow-up
      and link it). A closed issue with unfinished work inside it is worse than an open one.
-4. If an SDD framework is in use, **offer** to archive/sync the completed change
+4. **Bring the local `<base>` up to date with `origin/<base>`.** Other sessions may be working in any
+   worktree of this repository, so move `<base>` only by a fast-forward, and never under uncommitted
+   work. Note `git rev-parse <base>` for the report, then run `git worktree list --porcelain`: a
+   `branch refs/heads/<base>` line names the worktree that has `<base>` checked out.
+   - **No worktree has `<base>` checked out** → `git fetch origin <base>:<base>`. This moves the
+     branch and changes no file. Git refuses the update when it is not a fast-forward.
+   - **A worktree has it checked out, that worktree is inside the directory this session was invoked
+     in, and `git -C <worktree> status --porcelain` prints nothing** → `git fetch origin <base>`,
+     then `git -C <worktree> merge --ff-only origin/<base>`. Untracked files count as uncommitted:
+     another session may be about to commit them.
+   - **That worktree has uncommitted changes, or is outside the directory this session was invoked
+     in** → change nothing. Writing there would move files under another session's work, or break
+     "Edit Scope".
+   - **Local `<base>` has commits `origin/<base>` lacks** → both commands above refuse. Change
+     nothing: reconciling a diverged branch is the human's call.
+
+   Never rebase, reset, stash, create a merge commit, or switch a branch to make the update
+   possible. When `<base>` did not move, count how far it is ahead and behind with
+   `git rev-list --left-right --count <base>...origin/<base>`. If the fetch fails (auth, network),
+   report the failed command and continue to the next step.
+5. If an SDD framework is in use, **offer** to archive/sync the completed change
    (`openspec-archive-change` / `openspec-sync-specs`, …). Offer it — the human may
    want to batch archives — and run it if they say yes.
-5. Remove the scratch directory this run created with `mktemp -d`, then report: what merged, what was
+6. Remove the scratch directory this run created with `mktemp -d`, then report: what merged, what was
    cleaned up, what the issue's state now is (closed by you, closed by the forge, or left open with a
-   reason), and what remains (follow-ups you noted, out-of-scope items).
+   reason), what `<base>` is now, and what remains (follow-ups you noted, out-of-scope items). Give
+   `<base>` by name with one of: fast-forwarded from `<old>` to `<new>`, with both commit ids;
+   already current; or unchanged, with the reason, the worktree concerned if any, and the ahead and
+   behind counts.
 
 ## Failure modes
 
@@ -439,8 +478,9 @@ merging is theirs.
 - **The repo's instructions outrank this skill** on every point of style, commit convention, branch
   policy, test entry point, and file placement.
 - **Edit inside the repo only.** Never write outside the worktree — not global config, not other repos.
-  The one exception is the development-context save at the merge-ready gate, which goes to the
-  checkout this session was invoked in.
+  There are two exceptions, and both act on the checkout this session was invoked in: the
+  development-context save at the merge-ready gate, and `--finish`, which removes the worktree and
+  brings the local base branch up to date.
 - **Infer, record, proceed.** Every inference goes in the PR body's Assumptions list. That is what
   makes autonomy auditable instead of reckless.
 - **Leave the permission prompts alone.** Never tell the developer to disable, bypass, or

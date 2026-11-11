@@ -46,7 +46,7 @@
     GIT_DEPTH: "0"
   before_script:
     # Pinned to match the version every mechanism here was verified against.
-    - pip install --quiet --disable-pip-version-check 'uv==0.12.19'
+    - pip install --quiet --disable-pip-version-check 'uv==0.13.7'
     - git fetch origin --tags --force
     - git config user.email "ci@$CI_SERVER_HOST"
     - git config user.name "GitLab CI"

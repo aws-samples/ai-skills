@@ -18,6 +18,7 @@ one skill without the others.
 | [**release**](docs/skills/release/README.md) | versioning and release notes derived from Conventional Commits, and an optional public publish path | 1 |
 | [**research**](docs/skills/research/README.md) | the spec-driven development loop: a working folder, research, a plan, implementation, and retirement | 5 |
 | [**software-docs**](docs/skills/software-docs/README.md) | a project's documentation tree and the site that builds it | 2 |
+| [**video**](docs/skills/video/README.md) | narrated videos: slides, live demos of a web app, and animated diagrams, with a voice-over | 1 |
 
 ## Install
 
@@ -42,7 +43,7 @@ Claude Code, Kiro, Codex, OpenCode, pi, or Cursor. It runs with [`uv`](https://d
 and shows every file it will write before it writes anything.
 
 ```sh
-uvx --from git+https://github.com/awslabs/ai-skills@vX.Y.Z ai-skills
+uvx --from git+https://github.com/aws-samples/ai-skills@vX.Y.Z ai-skills
 ```
 
 ![The installer's first screen, choosing which agents to install for](docs/how-to/images/installer-1.png)

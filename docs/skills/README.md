@@ -26,6 +26,7 @@ Each domain page lists the skills it ships.
 | [**release**](./release/) | versioning and release notes derived from Conventional Commits, and an optional public publish path | 1 |
 | [**research**](./research/) | the spec-driven development loop: a working folder, research, a plan, implementation, and retirement | 5 |
 | [**software-docs**](./software-docs/) | a project's documentation tree and the site that builds it | 2 |
+| [**video**](./video/) | narrated videos: slides, live demos of a web app, and animated diagrams, with a voice-over | 1 |
 
 Domains are independent and dependency-free: installing one skill from a domain does not require
 installing the others, but a skill's own `references/` folder must travel with it.

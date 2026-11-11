@@ -16,14 +16,14 @@ Every value is published vocabulary — this format adds no status of its own.
 
 ## Reading a status — four tolerances
 
-Every consumer applies all four. Each prevents the same failure, a **retired decision read as live**, which under the status-mapping table below stops a plan to comply with a decision the team already replaced.
+Every consumer applies all four. Each prevents the same failure, a **retired decision read as live**, which under the tier table below holds work to a decision the team already replaced.
 
 1. **Match both spellings of superseded.** adr-tools writes "Super**c**eded" — `adr-new`'s supersede path calls `_adr_add_link "$target" "Superceded by"`. Match `Superseded` and `Superceded`.
 2. **A supersession link with no keyword is superseded.** `_adr_remove_status` deletes the old keyword outright, so the retired record's Status section holds only `Superceded by [Title](file.md)` — no `Accepted` and no `Superseded` token for a keyword lookup to find.
 3. **Read status as the prose body of `## Status`,** not as a field.
 4. **Take the keyword case-insensitively from the section's first non-blank line.** A correctly-written record legitimately holds more than one line there — a keyword plus a link, or a keyword plus a timestamp — so a reader requiring exactly one line misreads it.
 
-An unrecognised keyword is **reported once, naming the file and the value, and loaded as no constraint**. Both silent defaults fail: reading it as `Accepted` turns a typo into a hard gate on a decision nobody made, and reading it as absent lets a real decision quietly stop gating.
+An unrecognised keyword is **reported once, naming the file and the value, and loaded as no constraint**. Both silent defaults fail: reading it as `Accepted` turns a typo into a constraint on a decision nobody made, and reading it as absent lets a real decision quietly stop counting.
 
 ## Resolving the log path
 
@@ -41,23 +41,33 @@ Resolution ends at "no log exists", **not at a default path**. A consumer handed
 find "$ADR_DIR" -mindepth 1 -maxdepth 2 -name '*.md' | grep -E '/[0-9][^/]*\.md$'
 ```
 
-**Do not glob a single segment.** A consumer that globs `<log>/*.md` — files directly inside the log root only — still finds every `Accepted` record, because those are filed at the root. The failure this rule prevents is a **silent warn tier**: `Proposed` records sit one level down, a single-segment glob loads none of them, produces no warning, and reports nothing — indistinguishable from a project that has made no architectural decisions at all.
+**Do not glob a single segment.** A consumer that globs `<log>/*.md` — files directly inside the log root only — still finds every `Accepted` record, because those are filed at the root. The failure this rule prevents is a **silent background tier**: `Proposed` records sit one level down, a single-segment glob loads none of them, and the consumer can never name one when it is relevant — indistinguishable from a project that has made no architectural decisions at all.
 
-## Consumers: absence is normal, and status maps onto the existing ladder
+## Consumers: absence is normal, and authority comes in tiers
 
 A project with **no log is the normal case**. A consumer skips **silently** when resolution finds none, because a warning on every run in a project that has made no architectural decisions is noise.
 
-When a log resolves, each record's status maps onto the constraint authority ladder a consumer already runs for the `*(inferred)*` marker. No second mechanism:
+When a log resolves, map each record onto the table below. A record with no `+ Scope:` bullet is scoped to the repository that holds the log, one with no `+ Boundary:` bullet reads as `Boundary: no`, and one with no `+ Revisit when:` bullet has no trigger. So a record written before those bullets existed is a guardrail for the whole repository.
 
-| Status | Authority |
-|---|---|
-| `Accepted` | Behaves as a **confirmed** constraint — stop and revise |
-| `Proposed` | Behaves as an **inferred** constraint — warn, name the record, continue |
-| `Rejected`, `Superseded`, `Deprecated`, log4brains' `draft` | Not a constraint. Load nothing, print nothing |
-| anything else | Not a constraint, reported once with the filename and the value |
+| Record | Tier | Consumer behaviour |
+|---|---|---|
+| `Accepted`, `Boundary: yes`, within scope | **Boundary** | Stop before acting against it, ask the person once, then follow their answer |
+| `Accepted`, otherwise, within scope | **Guardrail** | Follow it and name it. When the person's request departs from it, name the record by filename and the Decision bullet in one line, do what was asked, and offer to amend or supersede the record |
+| `Accepted`, outside its Scope or past its `Revisit when` trigger | **Background** | May inform a choice; never a reason not to proceed |
+| `Proposed` | **Background** | Name it when relevant; no warning on every plan |
+| `Rejected`, `Superseded`, `Deprecated`, log4brains' `draft` | Not a constraint | Load nothing, print nothing |
+| anything else | Not a constraint | Report once with the filename and the value |
 
-Name the record **by filename** in every warning and every stop — dated record filenames carry no short identifier to cite.
+**What binds is the `## Decision` section, and nothing else.** A status sets the *authority* of a record; this rule sets its *extent*. Context is the situation that produced the decision, Consequences is what follows from it, and Compliance names how adherence is checked. A consumer that gates on any of the three gates on rationale.
+
+**Compliance is derived, not additive.** Its bullets say how the Decision is verified, and add no obligation the Decision does not already carry.
+
+**Stale proposals are not loaded.** Do not name a `Proposed` record dated more than 30 days before the run unless the person asks about it. Its filename date is its creation date.
+
+**Precedence, when sources disagree:** the person's instruction in the current session wins; then the repository's own context files and `Accepted` records, newer before older; then the current change's own plan or design. `Proposed` records and other changes' plans are never constraints.
+
+Name the record **by filename** whenever you name, follow, or stop for one — dated record filenames carry no short identifier to cite.
 
 ## What this extract omits
 
-The record-creation rule (§11's CREATION branch, the record writer's first-run behavior, log initialization) is deliberately excluded. No skill in this domain creates, edits, moves, or deletes a decision record — each reads a status and nothing else.
+The record-creation rule (§11's CREATION branch, the record writer's first-run behavior, log initialization) is deliberately excluded. No skill in this domain creates, edits, moves, or deletes a decision record — each reads a status and nothing else. A consumer that finds an unrecorded decision names it, and leaves recording it to the person's request.

@@ -56,7 +56,7 @@
 # ---------------------------------------------------------------------------
 .promote-form-github:
   before_script:
-    - pip install --quiet --disable-pip-version-check 'uv==0.12.19'
+    - pip install --quiet --disable-pip-version-check 'uv==0.13.7'
     - git fetch origin --tags --force
     - |
       set -eu
@@ -100,7 +100,7 @@
   before_script:
     # openssh-client is absent from the python image, and `git` over SSH needs it.
     - apt-get update -qq && apt-get install -y -qq git openssh-client >/dev/null
-    - pip install --quiet --disable-pip-version-check 'uv==0.12.19'
+    - pip install --quiet --disable-pip-version-check 'uv==0.13.7'
     - git fetch origin --tags --force
     # The host key is fetched for the host the CONFIGURATION names, never for a
     # hardcoded forge. Hardcoding one is the single least portable line in this

@@ -1,0 +1,551 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "video.yaml",
+  "description": "The source of truth of one video bundle. references/video-bundle.md documents every field.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "title",
+    "slug",
+    "scenes"
+  ],
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The video's title, for the bundle's README and the report. Never shown or spoken unless a slide says it."
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Kebab-case name. The finished video is build/<slug>.mp4."
+    },
+    "date_stamp": {
+      "description": "The date shown in the lower right corner of the title slide, YYYY.MM.DD, or false for none. new writes the bundle's creation date; without the key, the date comes from a YYYY-MM-DD- folder name.",
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^\\d{4}\\.\\d{2}\\.\\d{2}$"
+        },
+        {
+          "const": false
+        }
+      ]
+    },
+    "brief": {
+      "$ref": "#/$defs/brief"
+    },
+    "voice": {
+      "$ref": "#/$defs/voice"
+    },
+    "render": {
+      "$ref": "#/$defs/render"
+    },
+    "guidance": {
+      "type": "string",
+      "description": "Video-wide guidance, applied on every rebuild of every scene. Never shown or spoken."
+    },
+    "browser": {
+      "$ref": "#/$defs/browser"
+    },
+    "scenes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/scene"
+      }
+    }
+  },
+  "$defs": {
+    "brief": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "What the opening and closing are written from (references/structure.md). Every field is optional. Never shown or spoken as written.",
+      "properties": {
+        "outcome": {
+          "type": "string",
+          "description": "What a viewer can do or knows after watching. The opening is written from it."
+        },
+        "takeaways": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "type": "string"
+          },
+          "description": "At most three points the closing restates in new words."
+        },
+        "action": {
+          "type": "string",
+          "description": "The one thing a viewer should do next. The closing asks for it, and the end card shows it."
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          },
+          "description": "Documents to cite. The end card shows each by name; the deck links each that has a url."
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S",
+          "description": "The short name the end card shows."
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https?://",
+          "description": "Where the reference lives. Linked in the deck, listed in the report, never shown as text on a slide."
+        }
+      }
+    },
+    "voice": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "provider": {
+          "enum": [
+            "polly",
+            "elevenlabs"
+          ],
+          "description": "Who voices the narration. Wins over [video] provider in .ai-skills.toml; the default is polly."
+        },
+        "polly": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "voice": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Amazon Polly voice ID, such as Stephen. Wins over [video.polly] voice."
+            },
+            "engine": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Amazon Polly engine: generative, long-form, neural or standard. Wins over [video.polly] engine."
+            }
+          }
+        },
+        "elevenlabs": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "ElevenLabs voice ID. Wins over [video.elevenlabs] voice_id."
+            },
+            "model": {
+              "type": "string",
+              "minLength": 1,
+              "description": "ElevenLabs model ID. Wins over [video.elevenlabs] model."
+            },
+            "settings": {
+              "type": "object",
+              "description": "ElevenLabs voice_settings, sent as given: stability, similarity_boost, style, use_speaker_boost, speed.",
+              "additionalProperties": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              }
+            }
+          }
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Deprecated: voice.elevenlabs.id. Read as the ElevenLabs voice ID."
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Deprecated: voice.elevenlabs.model. Read as the ElevenLabs model ID."
+        },
+        "settings": {
+          "type": "object",
+          "description": "Deprecated: voice.elevenlabs.settings. Read as the ElevenLabs voice_settings.",
+          "additionalProperties": {
+            "type": [
+              "number",
+              "boolean"
+            ]
+          }
+        },
+        "say_as": {
+          "type": "object",
+          "description": "Written form to spoken form. Applied to narration before voicing; the slide keeps the written form.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "render": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fps": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 60,
+          "default": 25
+        },
+        "lead_in": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.5,
+          "default": 0.3,
+          "description": "Seconds between a slide appearing and its narration starting."
+        },
+        "tail": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1.5,
+          "default": 0.7,
+          "description": "Seconds a slide stays after its narration ends, before the next scene."
+        },
+        "gap": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5,
+          "default": 1.0,
+          "description": "Seconds between one live step's line ending and the next step's line starting."
+        },
+        "fade_out": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3,
+          "default": 1,
+          "description": "Seconds the finished video fades to black and silence at its end, never over its last spoken line. 0 turns it off."
+        }
+      }
+    },
+    "browser": {
+      "type": "object",
+      "description": "Playwright new_context options by their Python names, plus launch (launch options) and file (a .yaml or .json file of the same options). Recorder-owned keys are rejected.",
+      "properties": {
+        "file": {
+          "type": "string"
+        },
+        "launch": {
+          "type": "object"
+        },
+        "extra_http_headers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^\\$\\{[A-Za-z_][A-Za-z0-9_]*\\}$"
+          }
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "record_video_dir"
+            ]
+          },
+          {
+            "required": [
+              "record_video_size"
+            ]
+          },
+          {
+            "required": [
+              "viewport"
+            ]
+          },
+          {
+            "required": [
+              "storage_state"
+            ]
+          },
+          {
+            "required": [
+              "reduced_motion"
+            ]
+          }
+        ]
+      }
+    },
+    "scene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "Stable ID. The slide that shows this scene carries data-scene=\"<id>\"."
+        },
+        "source": {
+          "type": "string",
+          "default": "slide",
+          "description": "What draws the scene: slide (a slide of the deck), live (a web application) or archify (an animated Archify diagram)."
+        },
+        "narration": {
+          "type": "string",
+          "description": "Slide and Archify scenes: exactly what the voice says, before say_as. Empty means a silent scene, which needs hold. Live scenes speak their steps' say lines instead."
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https?://",
+          "description": "Live scenes: the start URL, opened before the first step."
+        },
+        "auth": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "Live scenes: the saved sign-in to open with, by profile name (video_cli.py auth). Never its contents."
+        },
+        "signed_in": {
+          "type": "string",
+          "description": "Live scenes: a Playwright selector only a signed-in page shows. Its absence means the sign-in has expired."
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/step"
+          },
+          "description": "Live scenes: what happens, in order. Each step's say line plays while its do actions run."
+        },
+        "script": {
+          "type": "string",
+          "pattern": "^scenes/[A-Za-z0-9_.-]+\\.py$",
+          "description": "Live scenes: a Python file in the bundle's scenes/ folder that drives the page instead of the steps' do actions. Its run(page, line) calls line(n) to start step n's say line."
+        },
+        "diagram": {
+          "type": "string",
+          "pattern": "^diagrams/[A-Za-z0-9_.-]+\\.json$",
+          "description": "Archify scenes: the diagram, as Archify JSON in the bundle's diagrams/ folder. Its diagram_type is architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline or waterfall."
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "default": "dark",
+          "description": "Archify scenes: the diagram's colour theme."
+        },
+        "hold": {
+          "type": "number",
+          "minimum": 0,
+          "default": 0,
+          "description": "Extra seconds the scene stays on screen after its narration and tail."
+        },
+        "chapter": {
+          "type": "string",
+          "description": "The scene's chapter label in DESCRIPTION.md. Consecutive scenes with the same label are one chapter. Leave it out to label the scene from its id. Never shown or spoken."
+        },
+        "steering": {
+          "type": "string",
+          "description": "A one-off change for the next rebuild. Applied once, then moved to history.md."
+        },
+        "guidance": {
+          "type": "string",
+          "description": "A standing rule for this scene, applied on every rebuild. Never shown or spoken."
+        },
+        "browser": {
+          "$ref": "#/$defs/browser"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "source": {
+                "const": "live"
+              }
+            },
+            "required": [
+              "source"
+            ]
+          },
+          "then": {
+            "required": [
+              "url",
+              "steps"
+            ],
+            "not": {
+              "required": [
+                "narration"
+              ]
+            }
+          },
+          "else": {
+            "required": [
+              "narration"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "source": {
+                "const": "archify"
+              }
+            },
+            "required": [
+              "source"
+            ]
+          },
+          "then": {
+            "required": [
+              "diagram"
+            ]
+          }
+        }
+      ]
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "say"
+      ],
+      "properties": {
+        "say": {
+          "type": "string",
+          "description": "What the voice says while this step's actions run, before say_as. Empty means a silent step."
+        },
+        "do": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/action"
+          },
+          "description": "Actions, in order. Ignored when the scene has a script."
+        }
+      }
+    },
+    "action": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 1,
+      "description": "One action, as a single key: goto, click, hover, fill, type, press, scroll or wait.",
+      "properties": {
+        "goto": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A URL, resolved against the scene's url."
+        },
+        "click": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A selector. The target is outlined for 300 ms before the click."
+        },
+        "hover": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fill": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "selector",
+            "text"
+          ],
+          "properties": {
+            "selector": {
+              "type": "string",
+              "minLength": 1
+            },
+            "text": {
+              "type": "string"
+            }
+          }
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "selector",
+            "text"
+          ],
+          "properties": {
+            "selector": {
+              "type": "string",
+              "minLength": 1
+            },
+            "text": {
+              "type": "string"
+            }
+          },
+          "description": "Types the text visibly, key by key."
+        },
+        "press": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "key"
+          ],
+          "properties": {
+            "selector": {
+              "type": "string",
+              "minLength": 1
+            },
+            "key": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "scroll": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "y"
+              ],
+              "properties": {
+                "y": {
+                  "type": "number"
+                }
+              }
+            }
+          ]
+        },
+        "wait": {
+          "oneOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "minProperties": 1,
+              "maxProperties": 1,
+              "properties": {
+                "selector": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "url": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

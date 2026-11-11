@@ -2,7 +2,7 @@
 
 Shared normative reference for the **decision log** — the directory of architectural decision records (ADRs) a project keeps, one short markdown file per architecturally significant decision. "Decision log" is `adr.github.io`'s own term for the collection, so this reference uses it rather than inventing a synonym.
 
-`/ai-adr` writes and transitions records against every rule here, and it is the only writer. A **consumer** — any tool that reads the log rather than writing to it — needs only the log-path resolution and enumeration rules (§11), the five states (§5), the four reader tolerances (§6), and the status-to-authority mapping (§15). A consumer reads a status and never writes one. Whether a project's tooling gates on this log at all is that project's decision, and it belongs in a record rather than in this reference.
+`/ai-adr` writes and transitions records against every rule here, and it is the only writer. A **consumer** — any tool that reads the log rather than writing to it — needs only the log-path resolution and enumeration rules (§11), the five states (§5), the four reader tolerances (§6), the status-to-authority mapping (§15), and how to read the record fields (§20). A consumer reads a status and never writes one. Whether a project's tooling gates on this log at all is that project's decision, and it belongs in a record rather than in this reference.
 
 The length budget (§16), the provenance rule (§17), the filing move (§18), and the durability rules (§19) are **writer-only**, and named as such here so no consumer starts enforcing them. A reader that applied a 450-word cap or looked for a ` — *(inferred)*` marker would reject records already committed to the log — including AWS-shaped records written before this reference existed — and a consumer that never writes a record has nothing to gain from either rule.
 
@@ -46,6 +46,8 @@ AWS process: "The decision must clearly state, in imperative language, the solut
 
 Write `We use Postgres 16 for the ledger.` Reject `should` in this section — a decision phrased as a recommendation cannot be enforced, because nothing in it says the team is bound.
 
+**No unscoped universal word.** A Decision bullet says "every", "all", "never", or "any" only when the record's `+ Scope:` bullet (§20) bounds it. An unbounded universal binds work the person never had in mind.
+
 **The rule applies per bullet, not per section.** Once Decision is a list (§2), each bullet opens `We use` or `The team has to use`, and each is checked for `should` on its own. A section whose first bullet reads `We use Postgres 16 for the ledger` and whose second reads `we should probably pin the minor version` holds one decision and one suggestion, and the pinned version binds nobody.
 
 ## §4. Four positional constraints
@@ -69,18 +71,18 @@ adr-tools parses records with `head`, `cut`, and `awk` rather than a markdown pa
 
 Every value is published vocabulary, so this format **adds no status of its own** and has no status deviation to defend.
 
-**Five states and no sixth.** A parking state — the one a user reaches for when a proposal is going nowhere and neither accepting nor declining it is true — was researched, recommended, and declined on 2026-08-20. No published ADR source names such a state, so adding it would put the set's only invented value in it; there is no verb for it either. The accepted cost: a proposal nobody reviews warns on every planning run until someone accepts it, declines it, or deletes it.
+**Five states and no sixth.** A parking state — the one a user reaches for when a proposal is going nowhere and neither accepting nor declining it is true — was researched, recommended, and declined on 2026-08-20. No published ADR source names such a state, so adding it would put the set's only invented value in it; there is no verb for it either. The accepted cost: a proposal nobody reviews stays in the log until someone accepts it, declines it, or deletes it. **Stale is not a state either.** A `Proposed` record dated more than 30 days before the run is listed under `### Stale proposals` in the index (§13), and consumers stop loading it (§15). Its file never changes because it went stale.
 
 ## §6. Reading a status — four tolerances
 
-Every consumer applies all four. Each prevents the same failure, a **retired decision read as live**, which under §15's mapping stops a plan to comply with a decision the team already replaced.
+Every consumer applies all four. Each prevents the same failure, a **retired decision read as live**, which under §15's mapping holds work to a decision the team already replaced.
 
 1. **Match both spellings of superseded.** adr-tools writes "Super**c**eded" — `adr-new`'s supersede path calls `_adr_add_link "$target" "Superceded by"`. Match `Superseded` and `Superceded`.
 2. **A supersession link with no keyword is superseded.** `_adr_remove_status` deletes the old keyword outright, so the retired record's Status section holds only `Superceded by [Title](file.md)` — no `Accepted` and no `Superseded` token for a keyword lookup to find.
 3. **Read status as the prose body of `## Status`,** not as a field.
 4. **Take the keyword case-insensitively from the section's first non-blank line.** A correctly-written record legitimately holds more than one line there — a keyword plus a link, or a keyword plus a timestamp — so a reader requiring exactly one line misreads it.
 
-An unrecognised keyword is **reported once, naming the file and the value, and loaded as no constraint**. Both silent defaults fail: reading it as `Accepted` turns a typo into a hard gate on a decision nobody made, and reading it as absent lets a real decision quietly stop gating.
+An unrecognised keyword is **reported once, naming the file and the value, and loaded as no constraint**. Both silent defaults fail: reading it as `Accepted` turns a typo into a constraint on a decision nobody made, and reading it as absent lets a real decision quietly stop counting.
 
 ## §7. Immutability, as AWS scopes it
 
@@ -89,15 +91,16 @@ Two sources disagree, and the difference decides whether a lifecycle is implemen
 - **log4brains, unconditional:** "an ADR is immutable. Only its status can change."
 - **AWS, scoped to post-acceptance (AWS process):** "The team should treat ADRs as immutable documents after the team accepts or rejects them."
 
-Under log4brains' reading, AWS's own rework loop is illegal, because revising a `Proposed` record's Context mutates something other than its status. **This format follows AWS** — it is the authority this format traces to, and it names the boundary instead of implying one. The rule that follows:
+Under log4brains' reading, AWS's own rework loop is illegal, because revising a `Proposed` record's Context mutates something other than its status. **This format follows AWS** — it is the authority this format traces to, and it names the boundary instead of implying one. It departs from AWS at one point, on purpose: AWS's immutability protects the fact that a team decided, and a dated changelog row protects that fact equally, so an `Accepted` record's wording may be corrected. The rule that follows:
 
 - A **`Proposed`** record is a working document. Context, Decision, Consequences, and Compliance may be revised in place.
-- An **`Accepted`** or **`Rejected`** record is frozen. Only the keyword and link lines inside `## Status` may change.
+- An **`Accepted`** record's decision is fixed; its wording is not. A change that alters what the record obliges anyone to do, other than narrowing it, is a new record. A correction or a narrowing is an **amendment**: made in place, recorded in the record's own changelog, with a minor-version bump (§9). An amendment may correct a fact that was wrong or has changed in a way that matters to the decision, fix a typo, add the §20 fields, narrow a Decision bullet to what the person says they meant, or add a `Not decided here:` bullet. It never widens, reverses, or adds a Decision bullet, and never removes a rejected alternative or an accepted downside — each of those is a supersession.
+- A **`Rejected`**, **`Superseded`**, or **`Deprecated`** record is frozen. Only the keyword and link lines inside `## Status` may change.
 - A record's Context and Consequences describe the project **on the record's date**. A path or name in them that no longer exists is history, not an error, and is never a reason to edit, amend, or supersede the record (§19).
 
 ## §8. Transition legality, and the three refusals
 
-A record is freely editable while `Proposed`; once `Accepted` or `Rejected` the only moves left are `Accepted → Superseded` and `Accepted → Deprecated`; every other change is a new record.
+A record is freely editable while `Proposed`; once `Accepted` or `Rejected` the only moves left are `Accepted → Superseded` and `Accepted → Deprecated`. An amendment (§7) is not a move: the record stays `Accepted` where it is. Every other change is a new record.
 
 Two transitions are **refused as illegal moves**, and each refusal offers supersession or deprecation as the legal alternative:
 
@@ -106,21 +109,23 @@ Two transitions are **refused as illegal moves**, and each refusal offers supers
 
 Deprecation is the move for an accepted decision that no longer applies with nothing replacing it. Without that state such a record has no legal move at all, which is why it is kept.
 
-The third refusal is **distinct in kind** from those two, and confusing the two kinds produces the wrong message to the user. `Accepted → Rejected` and `Rejected → Accepted` are illegal moves — no input makes them legal. This one blocks a *legal* move on unresolved content:
+The third rule is **distinct in kind** from those two, and confusing the two kinds produces the wrong message to the user. `Accepted → Rejected` and `Rejected → Accepted` are illegal moves — no input makes them legal. This one puts a *legal* move behind resolving its content:
 
-- **`Proposed → Accepted` and `Proposed → Rejected` are refused while any bullet still carries ` — *(inferred)*`,** the marker §17 puts on a claim the agent concluded rather than read or was told. Acceptance must leave Context, Decision, Consequences, and Compliance byte-identical (§7), so the marker cannot be stripped during the transition — accepting with one in place freezes an unconfirmed claim into a record that then gates every plan under §15's mapping. The resolution is to confirm or drop the claim while the record is still `Proposed` and freely editable, then transition. The refusal names each unresolved bullet, so the user does not have to open the file to find them.
+- **`Proposed → Accepted` and `Proposed → Rejected` happen only once no bullet carries ` — *(inferred)*`,** the marker §17 puts on a claim the agent concluded rather than read or was told. The transition must leave Context, Decision, Consequences, and Compliance byte-identical, so the marker cannot be stripped during it — accepting with one in place would accept an unconfirmed claim into a record that then constrains every plan under §15's mapping. So the claim is confirmed or dropped first, while the record is still `Proposed` and freely editable. An interactive run does both in one run: one round of questions covering every marked bullet, a revision of the `Proposed` record, then the transition on the clean body, reported as two steps. A headless run refuses, naming each unresolved bullet, because confirming a claim is the person's answer.
 
-`Accepted → Superseded` and `Accepted → Deprecated` are outside this refusal: by it, an `Accepted` record holds no marker to find.
+`Accepted → Superseded` and `Accepted → Deprecated` are outside this rule: by it, an `Accepted` record holds no marker to find.
 
 ## §9. Immutability and the changelog, reconciled
 
 The AWS FAQ mandates a changelog on every record; AWS best practices says where a change goes: "change the status of the old ADR to **Superseded**, note their changes in the change history of the *new* ADR, and keep the old ADR in the decision log."
 
-So a change is recorded in the **new** record's changelog while the old record's status becomes `Superseded`. An agent that appends the explanation to an accepted record's own changelog has violated immutability while appearing to honour the changelog mandate. adr-tools implements the same reconciliation — its supersede path edits the old record's Status section and nothing else.
+So a supersession is recorded in the **new** record's changelog while the old record's status becomes `Superseded`. An agent that appends a supersession's explanation to the old record's own changelog has violated immutability while appearing to honour the changelog mandate. adr-tools implements the same reconciliation — its supersede path edits the old record's Status section and nothing else.
+
+**An amendment is the one change an `Accepted` record's own changelog records** (§7), because the record stays the decision. Its row carries the date, the person, and a one-line reason, and the version takes a minor bump — `1.0` to `1.1`. The row is how the record keeps the fact that the team decided while its wording changes.
 
 ## §10. Who sets a status
 
-**No skill sets a status on its own initiative.** A record moves only on an explicit human instruction.
+**No skill sets a status on its own initiative.** A record moves only on a person's explicit instruction: the command they typed, or their request in the current session.
 
 One sanctioned exception: `/ai-adr` writes the log's own first record as `Accepted` on its first run in a repository, because invoking it on a repository with no log *is* the decision that record documents. `adr init` does the same. This is not a licence to self-accept anywhere else.
 
@@ -144,7 +149,7 @@ find "$ADR_DIR" -mindepth 1 -maxdepth 2 -name '*.md' | grep -E '/[0-9][^/]*\.md$
 
 The leading-digit test is `adr-list`'s own filename filter with the recursion depth raised from zero to one. It excludes `README.md` — the index (§13) — and a `templates/` directory's own template, while admitting both a dated name and an adopted sequential one (`0001-…`). Depth is bounded at one because the directories below a log are filing buckets (§18) rather than a tree, so nothing legitimate sits deeper.
 
-**State the rule rather than leaving it implied.** A consumer that globs a single segment — `<log>/*.md`, matching files directly inside the log root and in no subdirectory of it — still finds every `Accepted` record, because §18 files those at the root. So the failure this rule prevents is not a broken hard gate. It is a **silent warn tier**: the `Proposed` records sit one level down, the consumer loads none of them, produces no warning, and reports nothing — which is indistinguishable from a project that has made no architectural decisions at all (§15).
+**State the rule rather than leaving it implied.** A consumer that globs a single segment — `<log>/*.md`, matching files directly inside the log root and in no subdirectory of it — still finds every `Accepted` record, because §18 files those at the root. So the failure this rule prevents is not a lost guardrail or boundary. It is a **silent background tier**: the `Proposed` records sit one level down, the consumer loads none of them, and it can never name one when it is relevant — which is indistinguishable from a project that has made no architectural decisions at all (§15).
 
 **CREATION — `/ai-adr`'s first-run branch alone.** A new log goes at **`docs/adr`**, and `.adr-dir` records that path immediately.
 
@@ -171,6 +176,8 @@ The log's index is **`<log>/README.md`**, grouped under three headings in this o
 
 The first two groups carry Date and linked title. **`Retired` carries a third column holding the exact status**, because it is one group covering three states (§18): collapsing them would lose the difference between a decision the team declined and one it replaced, which is the part a reader years later cannot reconstruct.
 
+**Stale proposals are grouped, not deleted.** Under `## Proposed`, a record whose filename date is more than 30 days before the run goes in a `### Stale proposals` table, with a third column holding its age in days. The 30 days is a constant, not a setting. The filename date is the creation date and is never rewritten (§12), so staleness needs no new metadata, and a log nobody writes to keeps its old grouping only until the next run.
+
 **Links are relative to the log root**, so a filed record's link carries its directory segment — `proposed/2026-08-25-file-records-by-status.md` — while an accepted record's link carries none.
 
 **A record's own `## Status` section wins over the index.** The index is a derived convenience and the record is the source, so a disagreement is **reported** naming the file, the group it was listed under, and the keyword — and never resolved by editing a record to match the index.
@@ -186,18 +193,30 @@ The changelog itself is an **AWS mandate** (AWS FAQ). Two rules about its conten
 - **Bumping the version to `1.0` on acceptance.** AWS mandates a version and shows `0.1: Initial proposed version`, but never states the bump.
 - **Putting the rejection reason in the changelog row.** AWS requires the reason — the owner "adds a reason for the rejection to prevent future discussions on the same topic" — and does not say where it goes.
 
-## §15. Consumers: absence is normal, and status maps onto the existing ladder
+## §15. Consumers: absence is normal, and authority comes in tiers
 
 A project with **no log is the normal case**. A consumer skips **silently** when resolution finds none, because a warning on every run in a project that has made no architectural decisions is noise.
 
-When a log resolves, each record's status maps onto the constraint authority ladder a consumer already runs for the `*(inferred)*` marker. No second mechanism:
+When a log resolves, a consumer maps each record onto the table below. A record with no `+ Scope:` bullet is scoped to the repository that holds the log, one with no `+ Boundary:` bullet reads as `Boundary: no`, and one with no `+ Revisit when:` bullet has no trigger. So a record written before those bullets existed is a guardrail for the whole repository.
 
-| Status | Authority |
-|---|---|
-| `Accepted` | Behaves as a **confirmed** constraint — stop and revise |
-| `Proposed` | Behaves as an **inferred** constraint — warn, name the record, continue |
-| `Rejected`, `Superseded`, `Deprecated`, log4brains' `draft` | Not a constraint. Load nothing, print nothing |
-| anything else | Not a constraint, reported once with the filename and the value (§6) |
+| Record | Tier | Consumer behaviour |
+|---|---|---|
+| `Accepted`, `Boundary: yes`, within scope | **Boundary** | Stop before acting against it, ask the person once, then follow their answer |
+| `Accepted`, otherwise, within scope | **Guardrail** | Follow it and name it. When the person's request departs from it, name the record by filename and the Decision bullet in one line, do what was asked, and offer to amend or supersede the record |
+| `Accepted`, outside its Scope or past its `Revisit when` trigger | **Background** | May inform a choice; never a reason not to proceed |
+| `Proposed` | **Background** | Name it when relevant; no warning on every plan |
+| `Rejected`, `Superseded`, `Deprecated`, log4brains' `draft` | Not a constraint | Load nothing, print nothing |
+| anything else | Not a constraint | Report once with the filename and the value (§6) |
+
+Stopping is right for a few decisions and wrong for most, so only the person marks a record as a boundary, and never by default (§20).
+
+**Stale proposals are not loaded.** A consumer does not name a `Proposed` record dated more than 30 days before the run unless the person asks about it (§13).
+
+**What binds is the `## Decision` section, and nothing else.** A status sets the *authority* of a record; this rule sets its *extent*. Context is the situation that produced the decision, Consequences is what follows from it, and Compliance names how adherence is checked. A consumer that gates on any of the three gates on rationale.
+
+**Compliance is derived, not additive.** Its bullets say how the Decision is verified, and add no obligation the Decision does not already carry.
+
+**Precedence, when sources disagree:** the person's instruction in the current session wins; then the repository's own context files and `Accepted` records, newer before older; then the current change's own plan or design. `Proposed` records and other changes' plans are never constraints.
 
 Name the record **by filename** in every warning and every stop, so the user can open it. There is no short identifier to cite — that is §12's accepted cost.
 
@@ -210,11 +229,13 @@ Name the record **by filename** in every warning and every stop, so the user can
 | Section | Cap | Shape |
 |---|---|---|
 | Context | 6 bullets | one per constraint; one per rejected alternative, with its reason on the same bullet |
-| Decision | 5 bullets | each opens "We use" — §3's phrasing rule survives bulleting unchanged |
-| Consequences | 6 bullets | each outcome bullet prefixed `Positive:` or `Negative, accepted:`, at least one of each; a bullet carrying §17's marker states an unresolved risk and takes the marker in place of a prefix |
+| Decision | 5 bullets | each opens "We use" — §3's phrasing rule survives bulleting unchanged; one bullet per decision the user actually stated, so 5 is headroom for a decision stated in five parts, never room to elaborate one decision into five |
+| Consequences | 6 bullets | prefix the outcomes the record has `Positive:` or `Negative, accepted:`, and require neither kind to exist; a bullet stating what changes for whoever acts on the decision needs no prefix; a `Revisit when:` bullet (§20) is a trigger, not an outcome; a bullet carrying §17's marker states an unresolved risk and takes the marker in place of a prefix |
 | Compliance | 4 bullets | each a real check, or the literal `Not yet defined: <what is unverified>` |
 | Any bullet | 30 words | one claim plus one consequence clause |
 | The four body sections together | 450 words | headings excluded. Notes sits outside the budget: Author, Version, and the Changelog are AWS-fixed structure whose rows carry a date, a person, and a reason |
+
+**Every number above is a ceiling, and there is no floor.** A record holds what the person stated and what the tree shows, and nothing written to fill a section or to reach a count. Under-filling a cap costs a reader some colour; over-filling one binds a team to a decision it never made.
 
 A **prose paragraph** is permitted only where a bullet cannot carry the claim, and at most one per section. Two paragraphs in a section is the section reverting to prose.
 
@@ -228,11 +249,13 @@ Cut first, in this order:
 2. **Editorial connectives** — "it is worth noting that", "with that said", a sentence whose whole job is introducing the next one.
 3. **The same fact stated in two sections.** Keep it where it is load-bearing and drop the echo.
 
-Never cut:
+Never cut — where the record has one:
 
 - **A rejected alternative and the reason it was rejected.** AWS requires Context to mention the solutions the team considered, and a rejection an agent cannot see is a rejection it proposes again.
 - **An accepted downside.** A record listing only upsides reads as advocacy, and the downside is the part a reader years later cannot reconstruct.
 - **A consequence for whoever acts on the decision** — what changes, for a person or for a tool that reads this log, once this record is `Accepted` (§15). This is the bullet that makes a record actionable rather than descriptive: a record stating only what was decided leaves a reader with nothing to do differently.
+
+An absent rejected alternative or downside is information, not a gap: it records that none was named. Filling it fabricates a deliberation (§17).
 
 **No offloading.** A record stays self-contained on its project-specific content, so it cannot meet the budget by citing a pipeline artifact for its reasoning: working folders get archived, and a project may gitignore its working root outright, so the cited path may be absent from a fresh clone and the record then points at nothing. Naming a tracked source file is different — it ships with the clone — but a record must also survive the file being edited, moved, or renamed, so a citation follows §19: no line numbers, and no path where a stable name will do.
 
@@ -252,7 +275,7 @@ A record is read years later by someone holding none of today's context, so a cl
 
 **The literal suffix is ` — *(inferred)*`** — em dash, a space either side of it, the word italicised in parentheses. This reference owns that spelling. A constraint bullet in a project context file such as `AGENTS.md` carries the same one, so there is one vocabulary, and a user who has met the marker there already knows what it means and that confirming the claim clears it by deleting the suffix.
 
-**A marker is resolved while the record is `Proposed`** and therefore freely editable (§7). It never survives into `Accepted` or `Rejected`: §8's third refusal blocks that transition while one is outstanding, because acceptance leaves the body byte-identical and would freeze the unconfirmed claim into a record that gates every subsequent plan.
+**A marker is resolved while the record is `Proposed`** and therefore freely editable (§7). It never survives into `Accepted` or `Rejected`: §8's third rule resolves it before the transition, because the transition leaves the body byte-identical and would carry the unconfirmed claim into a record that constrains every subsequent plan.
 
 **No asserted deliberation.** AWS requires Context to mention the solutions the team "considered", and a source listing options is a menu rather than deliberation — a dependency file naming three queue libraries is not evidence anyone weighed three queue libraries. An alternative the user did not name is either asked about or omitted, and never written as considered. Writing one in fabricates a discussion, and the record then closes a question the team never opened.
 
@@ -272,7 +295,7 @@ A flat log gives a directory listing no status signal: `ls` cannot tell a decisi
 | `Proposed` | `<log>/proposed/` |
 | `Rejected`, `Superseded`, `Deprecated` | `<log>/retired/` |
 
-**Why `Accepted` sits at the root rather than in `accepted/`.** The layout is asymmetric on purpose. A consumer that never learned §11's rule globs one segment, and against this layout that glob returns exactly the binding records — so an un-upgraded reader keeps its hard gate. Under a symmetric layout the same glob returns nothing, the reader loads zero constraints, and it reports nothing, which is indistinguishable from a project that has made no decisions. Both layouts fail an un-upgraded reader somewhere; this one chooses where.
+**Why `Accepted` sits at the root rather than in `accepted/`.** The layout is asymmetric on purpose. A consumer that never learned §11's rule globs one segment, and against this layout that glob returns exactly the `Accepted` records — so an un-upgraded reader keeps every guardrail and boundary. Under a symmetric layout the same glob returns nothing, the reader loads zero constraints, and it reports nothing, which is indistinguishable from a project that has made no decisions. Both layouts fail an un-upgraded reader somewhere; this one chooses where.
 
 **`retired/` holds three states because §15 gives all three identical authority** — `Rejected`, `Superseded`, and `Deprecated` each load nothing and print nothing. The name is a filing bucket rather than a status: **the state set stays five**, and `Retired` is not one of them. Two of the three could not be filed by keyword anyway, because a record the `adr` CLI superseded holds only `Superceded by [Title](file.md)` and no keyword at all (§6 tolerance 2).
 
@@ -299,7 +322,7 @@ Use `git mv` inside a repository and `mv` outside one, in the same commit as the
 
 **Writer-only**, like §16–§18. It governs what `/ai-adr` writes, and nothing a consumer reads changes.
 
-An `Accepted` record is frozen (§7), and the code it describes keeps changing. A bullet that says *where* something sits in the tree is true on the record's date and false after the next refactor, and nobody may correct it. A line citation goes stale fastest: the next edit above the cited line moves it. Nygard's post names the subject of a record: "Each record describes a set of forces and a single decision in response to those forces." A file location is at most evidence for a force.
+An `Accepted` record's decision is fixed (§7), and the code it describes keeps changing. A bullet that says *where* something sits in the tree is true on the record's date and false after the next refactor, and a moved path is never a reason to amend it. A line citation goes stale fastest: the next edit above the cited line moves it. Nygard's post names the subject of a record: "Each record describes a set of forces and a single decision in response to those forces." A file location is at most evidence for a force.
 
 **The rename test.** Before writing any bullet, ask: *would a rename, move, or refactor that leaves the decision intact make this bullet false?* If yes, rewrite the bullet at a higher level, or drop it. Every rule below applies this test.
 
@@ -313,7 +336,7 @@ An `Accepted` record is frozen (§7), and the code it describes keeps changing. 
 | 4. File or directory path, no line | `infra/`, `infra/main.tf` | Context only, when naming the file helps a reader and it has no stable equivalent |
 | 5. `path:line` or `path:start-end` | `infra/main.tf:1-40` | Never, in any section |
 
-When a Context claim really depends on an exact snapshot of a file, pin it to a commit rather than a line: `` `infra/main.tf` at `98cbf59` ``. A commit-pinned citation stays accurate for as long as the record is frozen. Use it rarely and only in Context, because the record's `Date:` already dates every Context bullet.
+When a Context claim really depends on an exact snapshot of a file, pin it to a commit rather than a line: `` `infra/main.tf` at `98cbf59` ``. A commit-pinned citation stays accurate for as long as the record exists. Use it rarely and only in Context, because the record's `Date:` already dates every Context bullet.
 
 **Decision bullets name choices, not places.** A Decision bullet opens "We use" (§3) followed by a tier-1 or tier-2 name, and names no file, directory, function, or line. When the decision really is about a location, name the location's role and keep the path out:
 
@@ -354,3 +377,19 @@ The first bullet becomes false only when the decision is broken, which is a find
 A record's filename is never renamed (§12), and filing (§18) changes only its directory, so a filename-only reference from code to record is correct for as long as the record exists. The reference sits in a file anyone may edit, and whoever edits the check maintains it. The record's side names the check by its tier-3 identifier and needs no maintenance. `/ai-adr` writes only to the log, so it cannot add that docstring. It names the step in its report instead, and a consumer that writes a check to enforce an `Accepted` record cites the record's filename in that check.
 
 **A moved path is never a reason to change a record.** Supersede only when the decision changes. Nygard's post: "It's still relevant to know that it *was* the decision, but is *no longer* the decision". A renamed file changes no decision. When the code and an `Accepted` record disagree, the fix goes in the code or in a follow-up task, never in the record. AWS best practices: "you can either update the outdated code base or artifacts gradually, while introducing new changes, or your team can decide to refactor the code explicitly by creating technical debt tasks."
+
+## §20. Record fields — scope, what is left open, a review trigger, a boundary
+
+Four fields ride as **prefixed bullets inside the existing sections**. §2's section set and §4's positional constraints stay unchanged, and adr-tools reads each one as ordinary list content, so no tool changes.
+
+| Field | Section | Form | Default |
+|---|---|---|---|
+| Scope | the first Context bullet | `+ Scope: <systems or kinds of work>. Existing work: migrates \| keeps its current state.` | none — asked when the input does not state it |
+| Not decided here | Context | `+ Not decided here: <adjacent choices>` | omitted unless the person named any |
+| Revisit when | Consequences | `+ Revisit when: <observable condition>` | `+ Revisit when: the scope above changes.` |
+| Boundary | Notes, after Author | `+ Boundary: yes` or `+ Boundary: no` | `no` |
+
+- **`Boundary: yes` is set only on the person's explicit word** — never inferred and never the default. It turns a guardrail into a stop (§15), so a writer that inferred it would decide for the team which decisions halt work.
+- **Scope bounds the Decision.** A Decision bullet's universal word needs it (§3), and a consumer reads a record outside its Scope as background (§15).
+- **A record without these fields** reads as scoped to the repository that holds the log, `Boundary: no`, with no review trigger (§15). Records already in a log are never migrated to add them (§18); an amendment may add them to one record when a person asks (§7).
+- **Notes sits outside §16's word budget**, so `Boundary` costs nothing against the caps. Scope and Not decided here count against Context's six bullets, and Revisit when against Consequences' six.

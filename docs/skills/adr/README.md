@@ -7,7 +7,8 @@ sidebar_position: 2
 # `adr`
 
 One skill that keeps a project's architecture decision log: a directory of dated records, one per
-decision, each carrying a status. It is invoked only by its slash command.
+decision, each carrying a status. It runs when a person invokes its slash command or asks for a
+record in the session, never on an agent's own initiative.
 
 | Skill | What it does |
 |---|---|

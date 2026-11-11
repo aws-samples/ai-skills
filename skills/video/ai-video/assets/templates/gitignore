@@ -1,0 +1,12 @@
+# Written by video. Generated media never belongs in git: a bundle's build/ is tens of megabytes.
+build/
+*.mp4
+*.webm
+*.mov
+*.mkv
+*.mp3
+*.wav
+*.m4a
+*.aac
+*.ogg
+*.flac

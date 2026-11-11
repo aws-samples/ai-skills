@@ -190,10 +190,12 @@ Skip this phase entirely with `--no-investigate`.
 2. **Trace to a cause.** Follow the call path to the specific line where behavior diverges from
    intent. Note the `file.py:142` references as you go — a precise pointer is the single most useful
    thing an issue can carry.
-3. **Check the binding rules.** An `Accepted` ADR, a hard constraint in the project context set
-   (the root `README.md`, `AGENTS.md`, `CLAUDE.md`, and any file `.ai-skills.toml` lists in
-   `context_files`), or a documented convention may mean the "bug" is intended behavior, or that the
-   obvious fix is forbidden. Say so in the issue; it changes the whole conversation.
+3. **Check the recorded decisions and rules.** An `Accepted` ADR's Decision bullets, a hard constraint
+   in the project context set (the root `README.md`, `AGENTS.md`, `CLAUDE.md`, and any file
+   `.ai-skills.toml` lists in `context_files`), or a documented convention may mean the "bug" is
+   intended behavior, or that the obvious fix departs from a recorded decision. Say so in the issue,
+   naming the record by filename; it changes the whole conversation. A record only informs the issue
+   text: it is never a reason not to file one.
 4. **Search for duplicates.** Query the tracker's open issues for the same symptom and the same file.
    If an open issue already covers it, do **not** create a second one: report the existing issue to
    the human, and add a comment there if your investigation found genuinely new evidence

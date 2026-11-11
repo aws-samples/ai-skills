@@ -34,7 +34,7 @@ recorded `verify` is the first test command its final verification runs.
 | Entry | Reason |
 |---|---|
 | `WebFetch`, `WebSearch` | No step fetches anything. |
-| `Skill` | Where the body wants a plan, it tells the *user* to run `/ai-plan`; it invokes nothing. It also states that no ADR-authoring skill exists here. |
+| `Skill` | Where the body wants a plan, it tells the *user* to run `/ai-plan`; it invokes nothing. For an unrecorded decision it names `/ai-adr "<decision>"` as a hint, and runs nothing. |
 | `NotebookEdit` | No step names a notebook. |
 
 `Agent` is **not** denied — Step 2b dispatches one agent per independent phase.
