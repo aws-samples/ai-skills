@@ -1,0 +1,407 @@
+<!doctype html><html lang=en dir=ltr class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-skills/video/ai-video/README" data-has-hydrated=false><head><meta charset=UTF-8><meta name=generator content="Docusaurus v3.10.2"><title data-rh=true>ai-video | ai-skills</title><meta data-rh=true name=viewport content="width=device-width, initial-scale=1.0"/><meta data-rh=true name=twitter:card content=summary_large_image /><meta data-rh=true property=og:image content=https://aws-samples.github.io/ai-skills/img/site-social-card.png /><meta data-rh=true name=twitter:image content=https://aws-samples.github.io/ai-skills/img/site-social-card.png /><meta data-rh=true property=og:url content=https://aws-samples.github.io/ai-skills/skills/video/ai-video/ /><meta data-rh=true property=og:locale content=en /><meta data-rh=true name=docusaurus_locale content=en /><meta data-rh=true name=docsearch:language content=en /><meta data-rh=true name=docusaurus_version content=current /><meta data-rh=true name=docusaurus_tag content=docs-default-current /><meta data-rh=true name=docsearch:version content=current /><meta data-rh=true name=docsearch:docusaurus_tag content=docs-default-current /><meta data-rh=true property=og:title content="ai-video | ai-skills"/><meta data-rh=true name=description content="| | |"/><meta data-rh=true property=og:description content="| | |"/><link data-rh=true rel=icon href=/ai-skills/img/site-icon.svg /><link data-rh=true rel=canonical href=https://aws-samples.github.io/ai-skills/skills/video/ai-video/ /><link data-rh=true rel=alternate href=https://aws-samples.github.io/ai-skills/skills/video/ai-video/ hreflang=en /><link data-rh=true rel=alternate href=https://aws-samples.github.io/ai-skills/skills/video/ai-video/ hreflang=x-default /><script data-rh=true type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://aws-samples.github.io/ai-skills/skills/video/","name":"video","position":1},{"@type":"ListItem","item":"https://aws-samples.github.io/ai-skills/skills/video/ai-video/","name":"ai-video","position":2}]}</script><link rel=stylesheet href=/ai-skills/assets/css/styles.0201b238.css /><script src=/ai-skills/assets/js/runtime~main.207e0d99.js defer></script><script src=/ai-skills/assets/js/main.c2e8939a.js defer></script></head><body><svg style="display: none;"><defs>
+<symbol id=theme-svg-external-link viewBox="0 0 24 24"><path fill=currentColor d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme-667")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||"light"),document.documentElement.setAttribute("data-theme-choice",t||"light")}(),function(){try{for(var[t,e]of new URLSearchParams(window.location.search).entries())if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id=__docusaurus><link rel=preload as=image href=/ai-skills/img/site-icon.svg /><div role=region aria-label="Skip to main content"><a class=skipToContent_DbOa href=#__docusaurus_skipToContent_fallback>Skip to main content</a></div><nav aria-label=Main class="theme-layout-navbar navbar navbar--fixed-top"><div class=navbar__inner><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded=false class="navbar__toggle clean-btn" type=button><svg width=30 height=30 viewBox="0 0 30 30" aria-hidden=true><path stroke=currentColor stroke-linecap=round stroke-miterlimit=10 stroke-width=2 d="M4 7h22M4 15h22M4 23h22"/></svg></button><a class=navbar__brand href=/ai-skills/><div class=navbar__logo><img src=/ai-skills/img/site-icon.svg alt="AI Skills Logo" class="themedComponent_OKV1 themedComponent--light_mxGx"/><img src=/ai-skills/img/site-icon.svg alt="AI Skills Logo" class="themedComponent_OKV1 themedComponent--dark_efw3"/></div><b class="navbar__title text--truncate">ai-skills</b></a><a class="navbar__item navbar__link" href=/ai-skills/how-to/>How-to</a><a aria-current=page class="navbar__item navbar__link navbar__link--active" href=/ai-skills/skills/>Skills</a><a class="navbar__item navbar__link" href=/ai-skills/explanation/>Explanation</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><div class=navbar__item><span class=navbar-version>v0.10.0</span></div><a href=https://github.com/aws-samples/ai-skills target=_blank rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width=13.5 height=13.5 aria-label="(opens in new tab)" class=iconExternalLink_bwLx><use href=#theme-svg-external-link /></svg></a><div class="toggle_IksS colorModeToggle_xxYs"><button class="clean-btn toggleButton_H8rb toggleButtonDisabled_QOZy" type=button disabled title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_M3RJ lightToggleIcon_QVzI"><path fill=currentColor d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"/></svg><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_M3RJ darkToggleIcon_DOK3"><path fill=currentColor d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"/></svg><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_M3RJ systemToggleIcon_Y8U4"><path fill=currentColor d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"/></svg></button></div><div class=navbarSearchContainer_pcUX></div></div></div><div role=presentation class=navbar-sidebar__backdrop></div></nav><div id=__docusaurus_skipToContent_fallback class="theme-layout-main main-wrapper mainWrapper_fMGu"><div class=docsWrapper_C208><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_Ekl_" type=button></button><div class=docRoot_EadF><aside class="theme-doc-sidebar-container docSidebarContainer_oozc"><div class=sidebarViewport_v4go><div class=sidebar_9kZd><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_K_61"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/ai-skills/skills/><span class=linkLabel_RT0Q>Overview</span></a><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class=menu__list-item-collapsible><a class="categoryLink_wF8V menu__link menu__link--sublist" href=/ai-skills/skills/adr/><span class=categoryLinkLabel_uY3C>adr</span></a><button aria-label="Expand sidebar category 'adr'" aria-expanded=false type=button class="clean-btn menu__caret"></button></div><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class=menu__list-item-collapsible><a class="categoryLink_wF8V menu__link menu__link--sublist" href=/ai-skills/skills/agents/><span class=categoryLinkLabel_uY3C>agents</span></a><button aria-label="Expand sidebar category 'agents'" aria-expanded=false type=button class="clean-btn menu__caret"></button></div><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class=menu__list-item-collapsible><a class="categoryLink_wF8V menu__link menu__link--sublist" href=/ai-skills/skills/dev/><span class=categoryLinkLabel_uY3C>dev</span></a><button aria-label="Expand sidebar category 'dev'" aria-expanded=false type=button class="clean-btn menu__caret"></button></div><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class=menu__list-item-collapsible><a class="categoryLink_wF8V menu__link menu__link--sublist" href=/ai-skills/skills/human-docs/><span class=categoryLinkLabel_uY3C>human-docs</span></a><button aria-label="Expand sidebar category 'human-docs'" aria-expanded=false type=button class="clean-btn menu__caret"></button></div><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class=menu__list-item-collapsible><a class="categoryLink_wF8V menu__link menu__link--sublist" href=/ai-skills/skills/release/><span class=categoryLinkLabel_uY3C>release</span></a><button aria-label="Expand sidebar category 'release'" aria-expanded=false type=button class="clean-btn menu__caret"></button></div><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class=menu__list-item-collapsible><a class="categoryLink_wF8V menu__link menu__link--sublist" href=/ai-skills/skills/research/><span class=categoryLinkLabel_uY3C>research</span></a><button aria-label="Expand sidebar category 'research'" aria-expanded=false type=button class="clean-btn menu__caret"></button></div><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class=menu__list-item-collapsible><a class="categoryLink_wF8V menu__link menu__link--sublist" href=/ai-skills/skills/software-docs/><span class=categoryLinkLabel_uY3C>software-docs</span></a><button aria-label="Expand sidebar category 'software-docs'" aria-expanded=false type=button class="clean-btn menu__caret"></button></div><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class=menu__list-item-collapsible><a class="categoryLink_wF8V menu__link menu__link--sublist menu__link--active" href=/ai-skills/skills/video/><span class=categoryLinkLabel_uY3C>video</span></a><button aria-label="Collapse sidebar category 'video'" aria-expanded=true type=button class="clean-btn menu__caret"></button></div><ul class=menu__list><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current=page tabindex=0 href=/ai-skills/skills/video/ai-video/><span class=linkLabel_RT0Q>ai-video</span></a></ul></ul></nav></div></div></aside><main class=docMainContainer_IPdP><div class="container padding-top--md padding-bottom--lg"><div class=row><div class="col docItemCol_AayO"><div class=docItemContainer_yW_h><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_ANZD" aria-label=Breadcrumbs><ul class=breadcrumbs><li class=breadcrumbs__item><a aria-label="Home page" class=breadcrumbs__link href=/ai-skills/><svg viewBox="0 0 24 24" class=breadcrumbHomeIcon_nEaa><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill=currentColor /></svg></a><li class=breadcrumbs__item><a class=breadcrumbs__link href=/ai-skills/skills/video/><span>video</span></a><li class="breadcrumbs__item breadcrumbs__item--active"><span class=breadcrumbs__link>ai-video</span></ul></nav><div class="tocCollapsible_XSNg theme-doc-toc-mobile tocMobile_VgSu"><button type=button class="clean-btn tocCollapsibleButton_zNoR">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1><code>ai-video</code></h1></header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><th><tbody><tr><td>Invoke<td><code>/ai-video "&lt;idea>"</code>, <code>/ai-video render &lt;bundle></code>, either with <code>--headless</code>, or a request for a quick video<tr><td>Activation<td>slash command, or a person's explicit request in the session; never on an agent's own initiative<tr><td>Domain<td><a class="" href=/ai-skills/skills/video/>video</a><tr><td>Source<td><code>skills/video/ai-video/SKILL.md</code></table>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=overview>Overview<a href=#overview class=hash-link aria-label="Direct link to Overview" title="Direct link to Overview" translate=no>​</a></h2>
+<p>The skill turns an idea into a narrated 1920×1080 MP4. The agent interviews the person, writes a
+storyboard, an HTML deck and the narration, and applies steering notes. A bundled script,
+<code>scripts/video_cli.py</code>, does everything that must be repeatable: it checks prerequisites, validates
+the bundle, voices the narration, records each scene in Chromium and assembles the video with
+ffmpeg.</p>
+<p>The narration is voiced by Amazon Polly unless a repository or a bundle chooses ElevenLabs. The
+default Polly voice is <code>Stephen</code> on the <code>generative</code> engine, in <code>us-east-1</code>. Polly is called through
+boto3 with the person's AWS credentials, so the AWS CLI is not needed.</p>
+<p>A scene is one of three kinds:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Source<th>What it shows<tbody><tr><td><code>slide</code><td>one slide of the bundle's HTML deck<tr><td><code>live</code><td>a real web application, driven step by step, signed in with a saved sign-in<tr><td><code>archify</code><td>an animated architecture, sequence, workflow or other diagram, drawn by the vendored Archify renderer</table>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=the-video-bundle>The video bundle<a href=#the-video-bundle class=hash-link aria-label="Direct link to The video bundle" title="Direct link to The video bundle" translate=no>​</a></h2>
+<p>Every video lives in a folder, by default a dated one, <code>&lt;output_path>/YYYY-MM-DD-&lt;slug>/</code>. It
+holds <code>video.yaml</code> (scenes, narration, steering and guidance), <code>design.md</code>, <code>deck/deck.html</code> and
+<code>history.md</code>. A person can edit any of them by hand and render again. The bundle's <code>build/</code> folder
+holds the generated audio, clips, MP4 and thumbnail image.</p>
+<p><code>&lt;output_path></code> is the working root the research and document skills use, <code>docs/working</code> unless
+<code>.ai-skills.toml</code> sets another, so a bundle sits beside their folders. The bundle is a working folder
+like theirs. Its <code>README.md</code> carries the same identity sections and <code>Status</code> list, followed by a
+guide to the bundle's files, and the working manifest, <code>&lt;output_path>/README.md</code>, has a row for it.
+The row reads <code>🆕 Created</code> once the bundle is made and <code>🛠️ In progress</code> after the first render that
+finishes. A person checks <code>Complete</code> in the bundle's <code>README.md</code> when the video is done.</p>
+<p>To put a video somewhere else, name the folder in the request, such as "make it in
+<code>docs/videos/demo-test-3</code>". The script's <code>new --out</code> makes the bundle in that folder exactly, with
+no date added, when the folder is absent or empty, and refuses a folder that holds anything. A
+folder inside the repository needs no confirmation; one outside it is shown to you to approve first.
+A bundle in a named folder has no row in the working manifest, so nothing outside that folder is
+written. Name a new folder for each new take, and an earlier one is never overwritten.</p>
+<p>A render voices only lines whose spoken text or voice changed, and records only scenes that changed.
+Deleting <code>build/</code> is safe, but the next render voices every line again and pays for it.</p>
+<p>The finished video's audio is AAC, mono, at 96 kb/s, because both voices are mono. When the person
+asks for a compressed, smaller or storage-friendly video, the agent runs <code>render --compress</code>, which
+encodes the finished video at H.264 CRF 28 with 64 kb/s audio. Measured on one 5:11 video, that
+file is 5.2 MB, against 10.1 MB for the default encode. Only that last encode changes: no line is
+voiced and no scene is recorded again. The flag is not saved, so a later render without it writes
+the full-quality file again, and <code>render</code> reports <code>compressed</code> and the file's <code>size</code> each time.</p>
+<p>The bundle's <code>DESCRIPTION.md</code> holds the text to paste when the video is posted and announced, one
+<code>##</code> section per field: <code>Title</code>, <code>Description</code>, <code>Tags</code>, <code>Call to action</code>, <code>Announcement</code> and
+<code>Chapters</code>. The agent writes the first five once, as plain text, from the interview and the
+narration. The <code>Announcement</code> is a short chat message with emoji, such as for Slack, whose last
+line is where the person pastes the video's link once it is uploaded. Each render rewrites only
+<code>Chapters</code>, from the finished video's scene start times, so a hand edit to any other section is
+kept.</p>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=opening-and-closing>Opening and closing<a href=#opening-and-closing class=hash-link aria-label="Direct link to Opening and closing" title="Direct link to Opening and closing" translate=no>​</a></h2>
+<p>A video opens on what its subject is, then the problem as a fact or the result, and what the viewer
+will be able to do. It closes by
+tying back to it, restating the takeaways, and asking for one action, then an end card. The agent
+writes both from the bundle's optional <code>brief</code> in <code>video.yaml</code>:</p>
+<div class="language-yaml codeBlockContainer_ij26 theme-code-block" style=--prism-color:#393A34;--prism-background-color:#f6f8fa><div class=codeBlockContent_aZoH><pre tabindex=0 class="prism-code language-yaml codeBlock_jkfP thin-scrollbar" style=color:#393A34;background-color:#f6f8fa><code class=codeBlockLines_bQBc><div class=token-line style=color:#393A34><span class="token key atrule" style=color:#00a4db>brief</span><span class="token punctuation" style=color:#393A34>:</span><span class="token plain"></span><br/></div><div class=token-line style=color:#393A34><span class="token plain">  </span><span class="token key atrule" style=color:#00a4db>outcome</span><span class="token punctuation" style=color:#393A34>:</span><span class="token plain"> New team members know what happens when they merge.</span><br/></div><div class=token-line style=color:#393A34><span class="token plain">  </span><span class="token key atrule" style=color:#00a4db>takeaways</span><span class="token punctuation" style=color:#393A34>:</span><span class="token plain">                      </span><span class="token comment" style=color:#999988;font-style:italic># at most three</span><span class="token plain"></span><br/></div><div class=token-line style=color:#393A34><span class="token plain">    </span><span class="token punctuation" style=color:#393A34>-</span><span class="token plain"> Every merge to main cuts a release.</span><br/></div><div class=token-line style=color:#393A34><span class="token plain">  </span><span class="token key atrule" style=color:#00a4db>action</span><span class="token punctuation" style=color:#393A34>:</span><span class="token plain"> Review the open release merge request by Friday.</span><br/></div><div class=token-line style=color:#393A34><span class="token plain">  </span><span class="token key atrule" style=color:#00a4db>references</span><span class="token punctuation" style=color:#393A34>:</span><span class="token plain"></span><br/></div><div class=token-line style=color:#393A34><span class="token plain">    </span><span class="token punctuation" style=color:#393A34>-</span><span class="token plain"> </span><span class="token key atrule" style=color:#00a4db>name</span><span class="token punctuation" style=color:#393A34>:</span><span class="token plain"> Release guide         </span><span class="token comment" style=color:#999988;font-style:italic># what the end card shows</span><span class="token plain"></span><br/></div><div class=token-line style=color:#393A34><span class="token plain">      </span><span class="token key atrule" style=color:#00a4db>url</span><span class="token punctuation" style=color:#393A34>:</span><span class="token plain"> https</span><span class="token punctuation" style=color:#393A34>:</span><span class="token plain">//example.com/release</span><span class="token punctuation" style=color:#393A34>-</span><span class="token plain">guide</span><br/></div></code></pre></div></div>
+<p>Say the takeaways, the action and any document to cite in the request. The skill asks only for the
+takeaways or the action a request leaves out, each with a recommended answer, and never asks for
+references. A headless run infers the outcome, the takeaways and the action, and lists what it
+inferred. It never writes a reference, URL, ticket number or pull request number the request does
+not contain.</p>
+<p>The end card shows the action and each reference by name. In <code>deck/deck.html</code> a reference with a
+<code>url</code> is a link. <code>DESCRIPTION.md</code>'s <code>Call to action</code> and the final report list each reference with
+its URL.</p>
+<p><code>validate</code> reports a top-level <code>warnings</code> list that never changes its status. It warns when the
+video has no brief, when the closing line starts with a trail-off phrase such as "That's it" or
+"In summary", and on the direct-voice, title and US English checks below. <code>validate</code> also reports
+each scene's estimated <code>seconds</code>. When the brief is edited by hand after a build, <code>validate</code> reports
+<code>brief_changed: true</code> and status <code>needs-build</code>, so nothing is voiced until the opening and closing
+are rewritten and the build is recorded again.</p>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=narrator-and-story>Narrator and story<a href=#narrator-and-story class=hash-link aria-label="Direct link to Narrator and story" title="Direct link to Narrator and story" translate=no>​</a></h2>
+<p>Every new video has a narrator and a story, recorded as the first line of the video-wide
+<code>guidance</code> in <code>video.yaml</code>:</p>
+<div class="language-yaml codeBlockContainer_ij26 theme-code-block" style=--prism-color:#393A34;--prism-background-color:#f6f8fa><div class=codeBlockContent_aZoH><pre tabindex=0 class="prism-code language-yaml codeBlock_jkfP thin-scrollbar" style=color:#393A34;background-color:#f6f8fa><code class=codeBlockLines_bQBc><div class=token-line style=color:#393A34><span class="token key atrule" style=color:#00a4db>guidance</span><span class="token punctuation" style=color:#393A34>:</span><span class="token plain"> </span><span class="token punctuation" style=color:#393A34>|</span><span class="token scalar string" style=color:#e3116c></span><br/></div><div class=token-line style=color:#393A34><span class="token scalar string" style=color:#e3116c>  Narrator: explainer, speaking to the viewer as "you". Story: Problem, solution, proof, use.</span><br/></div></code></pre></div></div>
+<p>The default narrator is an explainer: someone who knows the subject, speaking to the viewer as
+"you" and never as "I" or "we". A request that comes from a team ("narrated by the platform team,
+as 'we'") gets the team as narrator, and a request for one person's view gets that person as "I".
+The skill never asks about the narrator.</p>
+<p>The story is one of seven structures, chosen from what the video is for:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Structure<th>Chosen when the request<tbody><tr><td>Investigation<td>asks why something failed, or describes a failure to explain<tr><td>Worked example<td>asks for a deep dive, an architecture or design explanation, or a tour of code<tr><td>Situation, complication, resolution<td>is about a proposed or planned change: an issue, an epic, a proposal, a plan<tr><td>Answer first<td>reports findings, results or status, or says "update" or "what changed"<tr><td>Threat and defense<td>is about something that prevents a recurring problem or protects something<tr><td>Demo first<td>is about a subject whose visual output is the point<tr><td>Problem, solution, proof, use<td>matches none of the above</table>
+<p>The first row that matches wins, and a request that names a structure gets that structure. An
+interactive run asks which story to tell only when the request names none, with the chosen
+structure as the recommended answer. A document the request supplies is material for the video:
+the story decides the order, not the document's sections.</p>
+<p>Each scene states one takeaway. The slide's headline, or the diagram's title, says it in writing,
+and the scene's first sentence says it aloud in other words. The slide shows the evidence, and the
+narration never reads it. Reading the headlines alone, in order, gives the video's argument.</p>
+<p>A video planned at more than about six minutes is built in parts. Each part opens on a slide that
+names it and states its takeaway, and its scenes share one chapter. An interactive run offers one
+video in parts, or a short overview plus one video per part.</p>
+<p>To change the narrator or the story, name it in the request ("tell it as an investigation"), or
+edit the <code>Narrator:</code> line and ask for the scenes to be rewritten. Editing the line alone voices and
+records nothing.</p>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=direct-voice-and-us-english>Direct voice and US English<a href=#direct-voice-and-us-english class=hash-link aria-label="Direct link to Direct voice and US English" title="Direct link to Direct voice and US English" translate=no>​</a></h2>
+<p>The narration states facts about the subject, the organization or the code. It never states what
+the viewer feels, wants or has just done, and it says "you" only for something the viewer will do:
+the closing action, or a step in a how-to or a demo. The first sentence says what the subject is,
+and no scene holds it back for a reveal. A title names its subject, such as "Reelkit product
+definition", and is never a teaser, such as "Reelkit: what we're building".</p>
+<p>The narration is written in US English, because the voice takes accent cues from the text: a British
+form such as "organisation" or "mustn't" can switch a US voice to a British accent in the middle of a
+sentence.</p>
+<p><code>validate</code> warns, naming the scene and the phrase, on five short exact lists. They are kept in the
+skill's <code>references/structure.md</code> and <code>references/narration.md</code> under the names <code>validate</code> uses:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>List<th>Matched<th>Example<tbody><tr><td><code>SCENARIO_OPENERS</code><td>at the start of a sentence<td>"You've just finished…", "Imagine…"<tr><td><code>REVEALS</code><td>anywhere in a sentence<td>"So here's the idea."<tr><td><code>SLOGAN</code><td>at the end of a sentence<td>"send a link, not a file."<tr><td><code>TEASER_TITLES</code><td>in the title<td>"what's new", "From X to Y", a colon followed by "what", "how" or "why"<tr><td><code>BRITISH_FORMS</code><td>whole words in the spoken text, after <code>say_as</code><td>"organisation", "whilst", "mustn't"</table>
+<p>A warning never fails a run. A false match, such as "imagine" inside a quote, takes seconds to
+dismiss. The British check reads the text after <code>say_as</code>, so a British product name can stay on the
+slide and be mapped to its US spoken form.</p>
+<p>A new bundle's <code>video.yaml</code> shows <code>settings: {stability: 0.7}</code> in its commented ElevenLabs example.
+A higher stability keeps an ElevenLabs voice's accent steadier from line to line, and can make the
+delivery flatter. The value is a starting point that nobody has yet listened to. Amazon Polly has no
+such setting. An existing bundle keeps its settings and its cached audio.</p>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=quick-videos-and-length>Quick videos and length<a href=#quick-videos-and-length class=hash-link aria-label="Direct link to Quick videos and length" title="Direct link to Quick videos and length" translate=no>​</a></h2>
+<p>A request for a quick video, a quick explainer, or anything with the same meaning, runs as
+<code>--headless</code>: it asks nothing and lists every default it took. "Quick" says how the video is made. It
+never makes the video shorter.</p>
+<p>A length the request states ("90s", "three minutes", "a two-minute video") always wins. The run
+writes it in seconds as the second line of <code>guidance</code>, <code>Length: 90 seconds.</code>, and sizes the
+storyboard at about 15 seconds a scene. A headless or quick request that states no length targets 300
+seconds, about 20 scenes. That is a target, not a minimum: a short subject is never padded. An
+interactive run still recommends a length by purpose.</p>
+<p>A quick explainer about how a system is built, how a request flows, how data moves or how a state
+changes counts as a request for a technical explanation, so it may use Archify scenes. A quick tour
+or overview draws its diagrams on slides.</p>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=the-end-fade>The end fade<a href=#the-end-fade class=hash-link aria-label="Direct link to The end fade" title="Direct link to The end fade" translate=no>​</a></h2>
+<p><code>render</code> fades the finished video to black and silence over its last second. <code>render.fade_out</code> sets
+the length, from 0 to 3 seconds; 0 turns it off. The fade never covers the last spoken line: it is
+the smaller of <code>fade_out</code> and the time after that line, and <code>render</code> reports the length it applied
+as <code>fade</code>. The fade is applied when the clips are joined, so changing it records no scene and
+voices no line again.</p>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=the-thumbnail>The thumbnail<a href=#the-thumbnail class=hash-link aria-label="Direct link to The thumbnail" title="Direct link to The thumbnail" translate=no>​</a></h2>
+<p>A video whose first scene is a slide opens on that slide fully drawn: the first slide is filmed
+after its entrance animations finish, and every later slide keeps its entrance. Each render also
+writes <code>build/&lt;slug>.thumbnail.jpg</code>, a 1920×1080 image of the first scene's last frame, never
+faded, and embeds it in the MP4 as cover art, which Finder shows as the file's icon. The final
+report names the image to upload where a platform accepts a custom thumbnail. The image is taken
+from the first scene's clip, so writing it records no scene again. If it cannot be written or
+embedded, the video is still written and <code>render</code> warns.</p>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=the-date-stamp>The date stamp<a href=#the-date-stamp class=hash-link aria-label="Direct link to The date stamp" title="Direct link to The date stamp" translate=no>​</a></h2>
+<p>The title slide shows the date the bundle was made, <code>YYYY.MM.DD</code>, in small italic text in its lower
+right corner, and so does the thumbnail. <code>new</code> writes the date to <code>date_stamp</code> in <code>video.yaml</code>, so
+a later render shows the same date. Edit it to show another date, or set it to <code>false</code> to show none.
+<code>render</code> adds the stamp while it films the first slide, so <code>deck/deck.html</code> never contains it, and
+changing it records only the first scene again. A bundle made before the key existed takes the date
+from its <code>YYYY-MM-DD-&lt;slug></code> folder name. The stamp is the only date on the title slide: <code>validate</code>
+warns when the slide's own text holds one. A video whose first scene is a live or Archify scene has
+no title slide and no stamp.</p>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=money>Money<a href=#money class=hash-link aria-label="Direct link to Money" title="Direct link to Money" translate=no>​</a></h2>
+<p>Amazon Polly and ElevenLabs both charge per character. Only <code>voice --confirm</code> sends text to the
+voice service. <code>voice</code> without <code>--confirm</code> states the lines and the characters it would send. Every
+run states that count, then voices without asking: each line is cached, and a later edit voices only
+the lines it changes. When nothing needs voicing, the report says nothing was spent.</p>
+<p>The final report shows the storyboard as a table, one row a scene, with its estimated seconds. To
+check a video before anything is spent, ask for it to be built but not voiced ("build it, but don't
+voice it yet"). The run stops after <code>validate</code> and shows the storyboard and the character count.</p>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=sign-ins-for-live-scenes>Sign-ins for live scenes<a href=#sign-ins-for-live-scenes class=hash-link aria-label="Direct link to Sign-ins for live scenes" title="Direct link to Sign-ins for live scenes" translate=no>​</a></h2>
+<p>A saved sign-in is stored outside the repository, in the person's cache folder, readable only by
+them: <code>~/Library/Caches/ai-video/auth/</code> on macOS, <code>%LOCALAPPDATA%\ai-video\auth\</code> on Windows, and
+<code>$XDG_CACHE_HOME/ai-video/auth/</code> (default <code>~/.cache/ai-video/auth/</code>) elsewhere. The skill states that
+path and saves a sign-in only after the person approves it. A headless run never saves one.</p>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=configuration>Configuration<a href=#configuration class=hash-link aria-label="Direct link to Configuration" title="Direct link to Configuration" translate=no>​</a></h2>
+<p>The skill reads <code>[video]</code>, and the top-level <code>output_path</code>, from <code>.ai-skills.toml</code> at the repository
+root and never writes the file. A key the file does not set takes its default. For example, to voice every video with ElevenLabs:</p>
+<div class="language-toml codeBlockContainer_ij26 theme-code-block" style=--prism-color:#393A34;--prism-background-color:#f6f8fa><div class=codeBlockContent_aZoH><pre tabindex=0 class="prism-code language-toml codeBlock_jkfP thin-scrollbar" style=color:#393A34;background-color:#f6f8fa><code class=codeBlockLines_bQBc><div class=token-line style=color:#393A34><span class="token plain">[video]</span><br/></div><div class=token-line style=color:#393A34><span class="token plain">provider = "elevenlabs"</span><br/></div></code></pre></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Key<th>Default<th>Meaning<tbody><tr><td><code>output_path</code><td>the top-level <code>output_path</code>, else <code>"docs/working"</code><td>where video bundles are created; set it under <code>[video]</code> only to keep videos apart from the other skills' working root<tr><td><code>provider</code><td><code>"polly"</code><td>who voices the narration, <code>polly</code> or <code>elevenlabs</code>; a bundle's <code>voice.provider</code> wins<tr><td><code>[video.polly]</code> <code>voice</code><td><code>"Stephen"</code><td>the Amazon Polly voice; a bundle's <code>voice.polly.voice</code> wins<tr><td><code>[video.polly]</code> <code>engine</code><td><code>"generative"</code><td>the Amazon Polly engine; a bundle's <code>voice.polly.engine</code> wins<tr><td><code>[video.polly]</code> <code>region</code><td><code>"us-east-1"</code><td>the AWS Region Amazon Polly is called in<tr><td><code>[video.elevenlabs]</code> <code>voice_id</code><td><code>"2KkUKn1TzEOhhKPCZGrT"</code><td>the ElevenLabs voice; a bundle's <code>voice.elevenlabs.id</code> wins<tr><td><code>[video.elevenlabs]</code> <code>model</code><td><code>"eleven_v4"</code><td>the ElevenLabs model; a bundle's <code>voice.elevenlabs.model</code> wins<tr><td><code>[video.browser]</code><td>none<td>Playwright browser options for every bundle</table>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=requirements>Requirements<a href=#requirements class=hash-link aria-label="Direct link to Requirements" title="Direct link to Requirements" translate=no>​</a></h2>
+<ul>
+<li class=""><code>uv</code>, which installs the script's Python 3.14 and its packages on first run.</li>
+<li class="">ffmpeg on <code>PATH</code>, or the copy the <code>imageio-ffmpeg</code> package bundles.</li>
+<li class="">Playwright's Chromium.</li>
+<li class="">For Amazon Polly: AWS credentials that resolve through the standard chain (<code>AWS_PROFILE</code>, SSO,
+or environment variables), allowed <code>polly:SynthesizeSpeech</code> and <code>polly:DescribeVoices</code>.</li>
+<li class="">For ElevenLabs: <code>ELEVENLABS_API_KEY</code>.</li>
+</ul>
+<p><code>check</code> reports every missing item in one run, each with the command that fixes it.</p>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=what-it-never-does>What it never does<a href=#what-it-never-does class=hash-link aria-label="Direct link to What it never does" title="Direct link to What it never does" translate=no>​</a></h2>
+<ul>
+<li class="">Run on an agent's own initiative.</li>
+<li class="">Spend before stating the lines and characters it will send.</li>
+<li class="">Print, store or send a credential anywhere but the request that needs it.</li>
+<li class="">Fall back to a silent video when the voice service cannot be reached.</li>
+<li class="">Commit, or put media in git.</li>
+<li class="">Edit its vendored files (<code>deck-stage.js</code>, <code>viewport-base.css</code>, <code>vendor/archify/</code>).</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=tool-grants>Tool grants<a href=#tool-grants class=hash-link aria-label="Direct link to Tool grants" title="Direct link to Tool grants" translate=no>​</a></h2>
+<p><strong>Denial set</strong> — <code>WebFetch, WebSearch, Skill, NotebookEdit</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Entry<th>Reason<tbody><tr><td><code>WebFetch</code>, <code>WebSearch</code><td>The agent fetches no URL. A live scene's web application is opened by the script's Playwright browser, not by the agent.<tr><td><code>Skill</code><td>The skill invokes no other skill. The Archify renderer is vendored under <code>vendor/archify/</code>.<tr><td><code>NotebookEdit</code><td>The files it writes are <code>video.yaml</code>, <code>design.md</code>, <code>deck/deck.html</code>, <code>history.md</code>, the bundle's <code>README.md</code>, its row in the working manifest, and diagram JSON.</table>
+<p><code>Agent</code> is <strong>not</strong> denied, as for <code>ai-research</code>.</p>
+<p><strong>Pre-approval set</strong> — <code>Bash(uv run:*), Bash(uv --version), Bash(date:*)</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Entry<th>Step behind it<tbody><tr><td><code>Bash(uv run:*)</code><td>Every <code>video_cli.py</code> command: <code>check</code>, <code>new</code>, <code>built</code>, <code>validate</code>, <code>voice</code>, <code>render</code>, and <code>auth</code>.<tr><td><code>Bash(uv --version)</code><td>"Locate the skill", the check that <code>uv</code> is installed before anything else runs. It has no <code>:*</code>, so it matches that exact command only.<tr><td><code>Bash(date:*)</code><td>Step 3's manifest update, which takes the manifest's <code>Last updated</code> date from <code>date +%F</code>. <code>video_cli.py new</code> dates the bundle folder itself.</table>
+<p><code>Bash(uv run:*)</code> also pre-approves <code>voice --confirm</code>, the one command that spends money, and
+<code>auth --confirm</code>, which saves a sign-in. Neither is gated by a prompt from the harness. The body's
+rules are the only gate: state the characters before voicing, and save a sign-in only after the
+person approves its path.</p>
+<p>No denied capability is used by this body.</p>
+<p>What these declarations do <strong>not</strong> bound, and how their behaviour was established, is in
+<a class="" href=/ai-skills/explanation/tool-grant-bounds>Tool Grant Bounds</a>.</p>
+<h2 class="anchor anchorTargetStickyNavbar_kV0c" id=pages>Pages<a href=#pages class=hash-link aria-label="Direct link to Pages" title="Direct link to Pages" translate=no>​</a></h2>
+<p>No page is specific to this skill yet — its behaviour is defined by its <code>SKILL.md</code>.</div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_B9Mj"><a href=https://github.com/aws-samples/ai-skills/tree/main/docs/skills/video/ai-video/README.md target=_blank rel="noopener noreferrer" class=theme-edit-this-page><svg fill=currentColor height=20 width=20 viewBox="0 0 40 40" class=iconEdit_n1jH aria-hidden=true><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"/></g></svg>Edit this page</a></div><div class="col lastUpdated_PjmR"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href=/ai-skills/skills/video/><div class=pagination-nav__sublabel>Previous</div><div class=pagination-nav__label>video</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_Ta47 thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href=#overview class="table-of-contents__link toc-highlight">Overview</a><li><a href=#the-video-bundle class="table-of-contents__link toc-highlight">The video bundle</a><li><a href=#opening-and-closing class="table-of-contents__link toc-highlight">Opening and closing</a><li><a href=#narrator-and-story class="table-of-contents__link toc-highlight">Narrator and story</a><li><a href=#direct-voice-and-us-english class="table-of-contents__link toc-highlight">Direct voice and US English</a><li><a href=#quick-videos-and-length class="table-of-contents__link toc-highlight">Quick videos and length</a><li><a href=#the-end-fade class="table-of-contents__link toc-highlight">The end fade</a><li><a href=#the-thumbnail class="table-of-contents__link toc-highlight">The thumbnail</a><li><a href=#the-date-stamp class="table-of-contents__link toc-highlight">The date stamp</a><li><a href=#money class="table-of-contents__link toc-highlight">Money</a><li><a href=#sign-ins-for-live-scenes class="table-of-contents__link toc-highlight">Sign-ins for live scenes</a><li><a href=#configuration class="table-of-contents__link toc-highlight">Configuration</a><li><a href=#requirements class="table-of-contents__link toc-highlight">Requirements</a><li><a href=#what-it-never-does class="table-of-contents__link toc-highlight">What it never does</a><li><a href=#tool-grants class="table-of-contents__link toc-highlight">Tool grants</a><li><a href=#pages class="table-of-contents__link toc-highlight">Pages</a></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class=footer__title>Documentation</div><ul class="footer__items clean-list"><li class=footer__item><a class=footer__link-item href=/ai-skills/how-to/>How-to Guides</a><li class=footer__item><a class=footer__link-item href=/ai-skills/skills/>Skills</a></ul></div><div class="theme-layout-footer-column col footer__col"><div class=footer__title>More</div><ul class="footer__items clean-list"><li class=footer__item><a href=https://github.com/aws-samples/ai-skills target=_blank rel="noopener noreferrer" class=footer__link-item>GitHub<svg width=13.5 height=13.5 aria-label="(opens in new tab)" class=iconExternalLink_bwLx><use href=#theme-svg-external-link /></svg></a></ul></div></div><div class="footer__bottom text--center"><div class=footer__copyright>AWS - Generative AI Innovation Center</div></div></div></footer></div></body>
